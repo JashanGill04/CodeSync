@@ -5,7 +5,7 @@ let socket: Socket
 
 export const getSocket = () => {
   if (!socket) {
-    socket = io('http://localhost:4000', { transports: ['websocket'] }) // match your server port
+    socket = io(`${process.env.NEXT_PUBLIC_SOCKET_SERVER_URL}`, { transports: ['websocket'] }) // match your server port
   }
   return socket
 }
