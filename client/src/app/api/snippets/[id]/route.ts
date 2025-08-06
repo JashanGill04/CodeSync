@@ -3,10 +3,11 @@ import { authOptions } from '@/lib/auth'
 import connectDB from '@/lib/connectDB'
 import Snippet from '@/models/snippet'
 import { NextResponse } from 'next/server'
+import type { Params } from '@/lib/types' // Add this type definition
 
 export async function DELETE(
   request: Request,
-  context: { params: Record<string, string> }
+  { params }: { params: Params }  // Updated parameter type
 ) {
   const session = await getServerSession(authOptions);
 
@@ -16,10 +17,9 @@ export async function DELETE(
 
   await connectDB();
 
-  const { id } = await context.params;
+  const { id } = params;  // Direct destructuring
 
   await Snippet.deleteOne({ _id: id, userId: session.user.email });
 
   return NextResponse.json({ success: true });
 }
-
