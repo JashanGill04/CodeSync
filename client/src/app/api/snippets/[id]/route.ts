@@ -4,20 +4,9 @@ import connectDB from '@/lib/connectDB'
 import Snippet from '@/models/snippet'
 import { NextResponse, NextRequest } from 'next/server'
 
-// Define a type that matches your actual parameter structure
-type RouteParams = {
-  params: {
-    id: string;
-  } & {
-    // Account for the dual structure shown in your log
-    id?: string;
-    [key: string]: any; // Allow other properties
-  };
-};
-
 export async function DELETE(
   request: NextRequest,
-  context: RouteParams
+  { params }: { params: { id: string } }
 ) {
   const session = await getServerSession(authOptions);
 
@@ -27,12 +16,9 @@ export async function DELETE(
 
   await connectDB();
 
-  // Handle both possible locations of the id
-  const id = context.params.id || (context.params as any).id;
+  console.log("Params:", params); // Keep this for debugging
   
-  if (!id) {
-    return NextResponse.json({ error: 'Missing snippet ID' }, { status: 400 });
-  }
+  const { id } = params;
 
   await Snippet.deleteOne({ _id: id, userId: session.user.email });
 
