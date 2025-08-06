@@ -6,19 +6,20 @@ import { NextResponse } from 'next/server'
 
 export async function DELETE(
   request: Request,
-  context: { params: { id: string } }
+  context: { params: Record<string, string> }
 ) {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
 
   if (!session?.user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  await connectDB()
+  await connectDB();
 
-  const { id } = context.params
+  const { id } = await context.params;
 
-  await Snippet.deleteOne({ _id: id, userId: session.user.email })
+  await Snippet.deleteOne({ _id: id, userId: session.user.email });
 
-  return NextResponse.json({ success: true })
+  return NextResponse.json({ success: true });
 }
+
