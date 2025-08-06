@@ -28,11 +28,12 @@ export default function EditorToolbar({
   onRun,
   onCopyLink,
 }: Props) {
+  console.log(language);
   return (
     <div className="w-full flex flex-wrap items-center text-white justify-between gap-4 bg-[#0c0c1d] px-4 py-3 rounded-xl shadow border border-white/10">
       
       {/* Language Selector */}
-      <Select value={language} onValueChange={setLanguage}>
+      <Select value={language.toUpperCase()} onValueChange={setLanguage}>
         <SelectTrigger className="w-[180px] bg-[#0c0c1d] text-white border border-white/20 hover:border-white/40">
           <SelectValue placeholder="Select Language"  />
         </SelectTrigger>

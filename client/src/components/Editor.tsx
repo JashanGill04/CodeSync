@@ -140,7 +140,7 @@ export default function CodeEditor({ roomId }: Props) {
     socket.on("participants-update", (users) => {
       setParticipants(users);
     });
-
+console.log(activeFileData);
     return () => {
       socket.off("initial-files");
       socket.off("file-update");
@@ -292,7 +292,7 @@ const handleEditorTyping = () => {
 
         <EditorPanel
           code={activeFileData.content}
-          language={activeFileData.language}
+          language={(activeFileData.language).toUpperCase()}
           onCodeChange={handleEditorChange}
           editorTypingUsers={editorTypingUsers}
           output={output}
