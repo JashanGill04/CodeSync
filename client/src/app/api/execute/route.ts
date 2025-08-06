@@ -32,8 +32,12 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json(response.data)
-  } catch (err: any) {
-    console.error('Execution error:', err.message)
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error('Execution error:', err.message)
+    } else {
+      console.error('Execution error:', err)
+    }
     return NextResponse.json({ error: 'Execution failed' }, { status: 500 })
   }
 }
