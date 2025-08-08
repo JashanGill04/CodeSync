@@ -4,13 +4,9 @@ import { redirect } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import CodeEditor from '@/components/Editor'
 
-type Props = {
-  params: {
-    roomId: string
-  }
-}
 
-export default async function EditorPage({ params }: Props) {
+
+export default async function EditorPage({ params }: { params: Promise<{ roomId: string }> }){
 
   const session = await getServerSession(authOptions);
    const { roomId } = await params;
