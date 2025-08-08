@@ -6,19 +6,15 @@ import { NextResponse, NextRequest } from 'next/server'
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+ { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  await connectDB();
-
-  console.log("Params:", params); // Keep this for debugging
-  
-  const { id } = params;
+  await connectDB();  
+  const { id } = await params;
 
   await Snippet.deleteOne({ _id: id, userId: session.user.email });
 
